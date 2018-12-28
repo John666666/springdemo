@@ -1,0 +1,25 @@
+server:
+  port: 8095
+
+spring:
+  application:
+    name: myturbine
+
+turbine:
+  app-config: print-client #,print-client2 #配置Eureka中的serviceId列表，表明监控哪些服务
+  cluster-name-expression: "'default'"  #1. clusterNameExpression指定集群名称，默认表达式appName；此时：turbine.aggregator.clusterConfig需要配置想要监控的应用名称；2. 当clusterNameExpression: default时，turbine.aggregator.clusterConfig可以不写，因为默认就是default；3. 当clusterNameExpression: metadata[‘cluster’]时，假设想要监控的应用配置了eureka.instance.metadata-map.cluster: ABC，则需要配置，同时turbine.aggregator.clusterConfig: ABC
+  aggregator:
+    cluster-config: default #指定聚合哪些集群，多个使用”,”分割，默认为default。可使用http://.../turbine.stream?cluster={clusterConfig之一}访问
+
+## Turbine需要从Eureka中获取服务列表，然后遍历每个服务每个节点上的hystrix.stream数据，然后汇聚到一起
+eureka:
+  instance:
+    hostname: peer1
+    prefer-ip-address: true #配置Eureka
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8781/eureka/
+    registry-fetch-interval-seconds: 10
+
+

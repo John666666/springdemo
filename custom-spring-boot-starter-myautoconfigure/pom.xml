@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.john.spring</groupId>
+    <artifactId>custom-spring-boot-starter-myautoconfigure</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>1.5.10.RELEASE</version>
+        </dependency>
+
+        <!--SpringBoot由于要提供很多组件的starter，所以把自动配置的逻辑分成了两部分: autoconfiguration和starters。
+             autoconfigration负责集中管理各模块自动配置的逻辑，其中对各组件的依赖都是可选的<optional>true</optional>， 重点是处理自动配置逻辑，不会真正引入组件jar包；
+             各个具体的starter，基本上都是空jar包，里面最关键的是pom文件，用来真正引入依赖的包。
+              我们在自定义starter时，由于只需要管理一个组件，我们可以根据需要直接把配置逻辑和引入包放在一起，相当于是把autoconfigration和starter合并-->
+        <dependency>
+            <groupId>com.john.spring</groupId>
+            <artifactId>custom-spring-boot-starter-hello</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+</project>

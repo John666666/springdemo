@@ -1,0 +1,42 @@
+## 代理未接入eureka的服务，支持ribbon、hystrix
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: zuul-gateway
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8781/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true #配置Eureka
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+
+zuul:
+  routes:
+    service-calc:
+      path: /calcs/**
+      serviceId: service-calc-ribbon  #通过ribbon配置一个静态服务列表的service，用于代理为接入Eureka的服务
+
+hystrix:
+  command:
+    service-calc-ribbon:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 #这里如果不显示设置，Zuul会根据ribbon设置的ConnectionTimeout和ReadTimeout自动确定Hystrix的超时时间（所以一般可以通过配置ribbon的超时时间来控制hystrix超时），由于ribbon默认重试次数是1，所以Hystrix的超时时间会被设置为(500+2000)*2=5000
+
+#ribbon:
+#  eureka:
+#    enabled: false
+
+service-calc-ribbon:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList  #如果不配置ServerList类型为ConfigurationBasedServerList的话就需要禁用ribbon的eureka支持
+    ConnectTimeout: 500
+    ReadTimeout: 2000
+    listOfServers: http://localhost:8101,http://localhost:8102

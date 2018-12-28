@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.john.spring</groupId>
+    <artifactId>springdemo-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>eureka</module>
+        <module>microserver-print</module>
+        <module>print-client</module>
+        <module>custom-spring-boot-starter-hello</module>
+        <module>custom-spring-boot-starter-hello-starter</module>
+        <module>custom-spring-boot-starter-myautoconfigure</module>
+        <module>microserver-calc</module>
+        <module>hystrix-dashboard</module>
+        <module>turbine-demo</module>
+        <module>zuul-gateway-demo</module>
+        <module>springboot-admin-demo</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Edgware.SR3</spring-cloud.version>
+    </properties>
+
+    <!-- Inherit defaults from Spring Boot -->
+    <!-- 注：本身springboot parent pom 里只有dependencyManagement，并没有强依赖， 主要是给我们提供了一系列包，并同意管理他们的版本。
+    我们在具体子module中用到哪些依赖需要自己显示加进来， 但是不用指定版本 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.10.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.10</version>
+        </dependency>
+    </dependencies>
+
+    <!-- 由于maven的继承和Java类似也是单继承， 但是我们通过scope import就可以用非继承的方式继承父POM的dependencyManagement（注：scope import只能在dependencyManagement中， 并且dependencyManagement 只会影响现有依赖的配置，但不会引入依赖） -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--<configuration>
+                    &lt;!&ndash;fork :  如果没有该项配置devtools不会起作用，即应用不会restart &ndash;&gt;
+                    <fork>true</fork>
+                    <addResources>true</addResources>&lt;!&ndash;支持静态文件热部署&ndash;&gt;
+                </configuration>-->
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

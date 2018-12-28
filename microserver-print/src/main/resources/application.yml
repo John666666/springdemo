@@ -1,0 +1,26 @@
+# See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
+server:
+  port: 8002
+
+spring:
+  application:
+    name: microserver-print
+  profiles:
+    active: prod
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.john: debug
+
+
+eureka:
+  client:
+    service-url:
+#      defaultZone: http://lisi:123@peer1:8781/eureka
+      defaultZone: http://@peer1:8781/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}

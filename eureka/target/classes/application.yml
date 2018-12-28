@@ -1,0 +1,78 @@
+spring:
+  application:
+    name: eureka-server
+  profiles:
+    active: dev
+
+security:
+  basic:
+    enabled: true
+  user:
+    name: lisi
+    password: 123
+
+eureka:
+  instance:
+    prefer-ip-address: true #在某些情况下，Eureka优先使用IP地址而不是主机名。设置为true，当应用程序向eureka注册时，它将使用其IP地址而不是其主机名
+    #instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+
+---
+spring:
+  profiles: dev
+server:
+  port: 8781
+eureka:
+  instance:
+    hostname: peer1
+    lease-renewal-interval-in-seconds: 30   #eureka client续租的超时时长
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+
+security:
+  basic:
+    enabled: false
+---
+spring:
+  profiles: peer1
+server:
+  port: 8781
+eureka:
+  instance:
+    hostname: peer1
+  client:
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@peer2:8782/eureka/,http://${security.user.name}:${security.user.password}@peer3:8783/eureka/
+security:
+  basic:
+    enabled: true
+
+
+---
+spring:
+  profiles: peer2
+server:
+  port: 8782
+eureka:
+  instance:
+    hostname: peer2
+  client:
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@peer1:8781/eureka/,http://${security.user.name}:${security.user.password}@peer3:8783/eureka/
+
+---
+spring:
+  profiles: peer3
+server:
+  port: 8783
+eureka:
+  instance:
+    hostname: peer3
+  client:
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@peer1:8781/eureka/,http://${security.user.name}:${security.user.password}@peer2:8782/eureka/

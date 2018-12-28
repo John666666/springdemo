@@ -1,0 +1,15 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: spring-boot-admin
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8781/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true #配置Eureka
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
