@@ -1,0 +1,28 @@
+server:
+  port: 7778
+spring:
+  application:
+    name: ms-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://localhost:5080/demo/springdemo-config.git
+          force-pull: true
+          delete-untracked-branches: true
+          username: john
+          password: lijun123
+          repos:
+            test-project:
+              pattern: test*
+              uri: http://localhost:5080/demo/springdemo-config.git
+              clone-on-start: true
+              searchPaths: test_repo
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8781/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}

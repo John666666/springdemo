@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: ms-config-client
+  cloud:
+    config:
+      name: test  #默认值${spring.application.name}
+#      uri: http://localhost:7777
+      profile: local  #默认default，匹配${spring.cloud.config.name}.yml或者${spring.cloud.config.name}.properties
+      label: v1.0 #默认master
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: microserver-config-center
+
+
+management:
+  security:
+    enabled: false
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+#    metadata-map:
+#      configPath: /microserver-config-center
+  client:
+    service-url:
+      defaultZone: http://peer1:8781/eureka/

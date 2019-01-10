@@ -1,0 +1,11 @@
+server:
+  port: 7070
+
+tag: 你好  #这个值会被bootstrap.yml文件中定义的值覆盖
+
+#spring:
+#  rabbitmq:
+#    username: guest
+#    password: guest
+#    host: 127.0.0.1
+#    port: 5672

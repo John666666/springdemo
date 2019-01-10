@@ -6,6 +6,11 @@ server:
 spring:
   application:
     name: microserver-calc
+  zipkin:
+    base-url: http://peer1:9000/
+  sleuth:
+    sampler:
+      percentage: 1.0
 
 logging:
   level:
@@ -31,3 +36,4 @@ custom:
 management:
   security:
     enabled: false
+

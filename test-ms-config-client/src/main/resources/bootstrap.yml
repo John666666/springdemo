@@ -1,0 +1,22 @@
+server:
+  port: 7878
+spring:
+  application:
+    name: ms-config-client
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: ms-config-server
+      fail-fast: true
+      label: v1.0
+      profile: local
+      name: test
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://peer1:8781/eureka/

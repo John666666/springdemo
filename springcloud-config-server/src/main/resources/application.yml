@@ -1,0 +1,36 @@
+server:
+  port: 7778 #config server默认端口8888
+
+spring:
+  application:
+    name: microserver-config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://localhost:5080/demo/springdemo-config.git
+          clone-on-start: true
+          force-pull: true
+          delete-untracked-branches: true
+          search-paths: test_repo
+          username: john
+          password: lijun123
+          repos:
+            zuul-gateway-config:
+              pattern: zuul*
+              uri: http://localhost:5080/demo/springdemo-config.git
+              search-paths: zuul-gateway-demo #扫描指定子目录
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  client:
+    service-url:
+      defaultZone: http://peer1:8781/eureka/
+
+#
+#  rabbitmq:
+#    username: guest
+#    password: guest
+#    host: 127.0.0.1
+#    port: 5672

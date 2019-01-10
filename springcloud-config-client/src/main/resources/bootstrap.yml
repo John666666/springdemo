@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ms-config-client
+  cloud:
+    config:
+      name: test  #默认值${spring.application.name}
+      uri: http://localhost:7777
+      profile: local  #默认default，匹配${spring.cloud.config.name}.yml或者${spring.cloud.config.name}.properties
+      label: v1.0 #默认master
+
+management:
+  security:
+    enabled: false
+
+

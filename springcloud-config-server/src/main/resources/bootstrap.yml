@@ -1,0 +1,9 @@
+encrypt:
+  key-store:
+    location: classpath:/server.jks
+    password: miyaoku
+    alias: cloudconfig
+    secret: miyaokouling
+management:
+  security:
+    enabled: false
