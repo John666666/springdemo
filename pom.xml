@@ -26,6 +26,7 @@
         <module>test-ms-config-server</module>
         <module>test-ms-config-client</module>
         <module>zipkin-server</module>
+        <module>ms-consul-config-client</module>
     </modules>
 
     <properties>

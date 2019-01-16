@@ -1,0 +1,33 @@
+spring:
+  cloud:
+    consul:
+      config:
+        prefix: test-git-config/master/
+        profile-separator: ','
+        name: ${spring.application.name}
+        enabled: true
+        watch:
+#          delay: 60000
+          enabled: false
+        format: files #可选值：KEY_VALUE、PROPERTIES、YAML、FILES，默认值：KEY_VALUE（不区分大小写）
+        fail-fast: true
+      #        data-key: data #当配置格式是YAML或者是PROPERTIES时，此属性指定配置文件对应的key，默认的key是data
+      host: localhost
+      port: 8500
+      retry:
+        max-attempts: 6
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
+
+  application:
+    name: ms-consul-config-client
+
+server:
+  port: 8899
+
+name: John
+
+management:
+  security:
+    enabled: false
