@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.john.mapper.UserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.john.bean.UserRole">
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="r_id" jdbcType="INTEGER" property="rId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.john.bean.UserRole">
+    insert into user_role (u_id, r_id)
+    values (#{uId,jdbcType=INTEGER}, #{rId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select u_id, r_id
+    from user_role
+  </select>
+</mapper>

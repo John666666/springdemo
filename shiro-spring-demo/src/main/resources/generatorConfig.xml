@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<!-- 引入第三方依赖包 -->
+	<!--<classPathEntry location=".\lib\mysql-connector-java-8.0.12.jar" />-->
+
+	<!--
+     targetRuntime常用值:
+        MyBatis3Simple(只生成基本的CRUD和少量的动态SQL)
+        MyBatis3(生成完整的CRUD，包含CriteriaAPI方法Example后缀的方法)
+     -->
+    <context id="localhost_mysql" targetRuntime="MyBatis3Simple">
+
+        <!-- 不生成注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/rbac?characterEncoding=utf8"
+                        userId="root"
+                        password="root">
+			<!-- 如果连接的是mysql需要加上这个配置，应为mysql不支持catalog和schema，如果多个库中有相同名称的表，会重复生成代码 -->
+			<property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+		<!-- 生成实体类 -->
+        <javaModelGenerator targetPackage="com.john.bean" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+		<!-- 生成XML Mapper -->
+        <sqlMapGenerator targetPackage="src/main/resources/mappers" targetProject=".">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+		<!-- 生成Mapper接口 -->
+        <!-- 生成的Mapper类型：ANNOTATEDMAPPER（注解）、MIXEDMAPPER（混合）、XMLMAPPER（XML） -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.john.mapper" targetProject="src/main/java">
+            <!-- 是否将数据库中的schema作为包名的一部分，默认就是false -->
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+		<!-- 完全限定一张表：catalog名称.schema名称.表名(如果多个库中有同名的表必须配置)
+			其实Mysql根本不支持catalog和schema，建议不要配置这两个，使用jdbcConnection标签中的nullCatalogMeansCurrent配置项解决
+		-->
+		<!--
+		<table catalog="lanou" schema="lanou" tableName="book">
+		-->
+
+        <table tableName="user">
+
+            <!-- 是否用数据库中的字段名作为POJO属性名(不自动转小驼峰)，默认值是false -->
+            <!--
+            <property name="useActualColumnNames" value="true"/>
+            -->
+            <!-- 生成代码时支持获取插入数据后自增的ID， 需要通过sqlStatement配置数据库类型。 -->
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+
+            <!-- 此标签用于在生成代码时忽略数据库中的某个字段 -->
+            <!--
+            <ignoreColumn column="FRED" />
+            -->
+            <!-- 通过此标签重写mybatis从数据库读到的元信息，自定义列相关配置，包括(名称、类型) -->
+            <!--
+            <columnOverride column="aa" property="sname" />
+            -->
+
+        </table>
+        <table tableName="user_role" />
+        <table tableName="role" />
+        <table tableName="permission" />
+        <table tableName="role_permission" />
+
+    </context>
+</generatorConfiguration>

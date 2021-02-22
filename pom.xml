@@ -28,6 +28,7 @@
         <module>zipkin-server</module>
         <module>ms-consul-config-client</module>
         <module>springmvc-demo</module>
+        <module>shiro-spring-demo</module>
     </modules>
 
     <properties>

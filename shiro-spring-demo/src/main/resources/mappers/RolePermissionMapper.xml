@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.john.mapper.RolePermissionMapper">
+  <resultMap id="BaseResultMap" type="com.john.bean.RolePermission">
+    <id column="r_id" jdbcType="INTEGER" property="rId" />
+    <id column="p_id" jdbcType="INTEGER" property="pId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from role_permission
+    where r_id = #{rId,jdbcType=INTEGER}
+      and p_id = #{pId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.john.bean.RolePermission">
+    insert into role_permission (r_id, p_id)
+    values (#{rId,jdbcType=INTEGER}, #{pId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select r_id, p_id
+    from role_permission
+  </select>
+</mapper>
